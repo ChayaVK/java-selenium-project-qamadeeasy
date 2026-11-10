@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- The same tests on two browsers, one after the other.
+     Each <test> passes its browser with a parameter that BaseTest reads.
+     Run: mvn clean test -DsuiteXmlFile=suites/cross-browser.xml -->
+<suite name="Cross Browser Suite" verbose="1">
+    <listeners>
+        <listener class-name="com.username.listeners.RetryTransformer"/>
+    </listeners>
+    <test name="Chrome">
+        <parameter name="browser" value="chrome"/>
+        <groups><run><include name="smoke"/></run></groups>
+        <classes>
+            <class name="com.username.tests.LoginTest"/>
+            <class name="com.username.tests.LoginDataDrivenTest"/>
+            <class name="com.username.tests.ProductsTest"/>
+            <class name="com.username.tests.CheckoutTest"/>
+            <class name="com.username.tests.PracticeTest"/>
+        </classes>
+    </test>
+    <test name="Edge">
+        <parameter name="browser" value="edge"/>
+        <groups><run><include name="smoke"/></run></groups>
+        <classes>
+            <class name="com.username.tests.LoginTest"/>
+            <class name="com.username.tests.LoginDataDrivenTest"/>
+            <class name="com.username.tests.ProductsTest"/>
+            <class name="com.username.tests.CheckoutTest"/>
+            <class name="com.username.tests.PracticeTest"/>
+        </classes>
+    </test>
+</suite>

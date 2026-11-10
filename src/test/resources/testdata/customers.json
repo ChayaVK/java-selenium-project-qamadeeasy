@@ -1,0 +1,14 @@
+[
+  {
+    "firstName": "Alex",
+    "lastName": "Smith",
+    "postalCode": "560034",
+    "products": ["Laptop Bag", "Wireless Mouse"]
+  },
+  {
+    "firstName": "Jordan",
+    "lastName": "Lee",
+    "postalCode": "10001",
+    "products": ["USB-C Cable", "Desk Lamp", "Water Bottle"]
+  }
+]

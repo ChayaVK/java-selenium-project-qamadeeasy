@@ -1,0 +1,14 @@
+# Build output
+target/
+# Run output: created again by every run
+reports/
+logs/
+# IDE files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+# Local secrets (never commit passwords)
+*.local.properties

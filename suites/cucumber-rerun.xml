@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Runs again only the scenarios that failed in the last Cucumber run.
+     Run: mvn test -DsuiteXmlFile=suites/cucumber-rerun.xml  (no "clean": it would delete the list) -->
+<suite name="Cucumber Rerun Suite" verbose="1">
+    <test name="Failed Scenarios">
+        <classes>
+            <class name="com.username.cucumber.runners.FailedScenariosRunnerTest"/>
+        </classes>
+    </test>
+</suite>

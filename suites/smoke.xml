@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Smoke suite: only tests in the "smoke" group. Run: mvn clean test -DsuiteXmlFile=suites/smoke.xml -->
+<suite name="Smoke Suite" verbose="1">
+    <listeners>
+        <listener class-name="com.username.listeners.RetryTransformer"/>
+    </listeners>
+    <test name="Smoke">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.username.tests.LoginTest"/>
+            <class name="com.username.tests.LoginDataDrivenTest"/>
+            <class name="com.username.tests.ProductsTest"/>
+            <class name="com.username.tests.CheckoutTest"/>
+            <class name="com.username.tests.PracticeTest"/>
+        </classes>
+    </test>
+</suite>

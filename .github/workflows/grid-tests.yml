@@ -1,0 +1,70 @@
+# GitHub Actions: starts the Selenium Grid from docker-compose.yml and runs the smoke
+# tests on Chrome, Firefox and Edge in Docker containers, one job per browser.
+# Start it by hand: Actions tab > Grid tests (Docker) > Run workflow.
+name: Grid tests (Docker)
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: Suite file in the suites folder
+        type: choice
+        options: [smoke, testng, cucumber]
+        default: smoke
+
+jobs:
+  grid:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox, edge]
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v5
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Start the Selenium Grid
+        run: docker compose up -d
+
+      - name: Wait until the Grid has its browser nodes
+        run: |
+          for i in $(seq 1 60); do
+            if curl -s http://localhost:4444/status | grep -q '"ready": true'; then
+              echo "Grid is ready"; exit 0
+            fi
+            sleep 2
+          done
+          echo "Grid did not start"; docker compose logs; exit 1
+
+      # The browsers run inside containers, so they reach the demo shop on this machine
+      # through host.docker.internal (see extra_hosts in docker-compose.yml).
+      - name: Run the tests on ${{ matrix.browser }}
+        run: >
+          mvn -B clean test
+          -DsuiteXmlFile=suites/${{ github.event.inputs.suite || 'smoke' }}.xml
+          -Dremote=true -Dgrid.url=http://localhost:4444
+          -Dbrowser=${{ matrix.browser }} -Dheadless=true
+          -Dbase.url=http://host.docker.internal:8080
+
+      - name: Upload the reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: grid-reports-${{ matrix.browser }}
+          path: |
+            reports/
+            logs/
+            target/surefire-reports/
+          retention-days: 14
+
+      - name: Stop the Grid
+        if: always()
+        run: docker compose down

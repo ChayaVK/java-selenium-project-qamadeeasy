@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Everything: the TestNG regression suite, then the Cucumber scenarios.
+     Run: mvn clean test -DsuiteXmlFile=suites/all.xml -->
+<suite name="Full Suite" verbose="1">
+    <suite-files>
+        <suite-file path="testng.xml"/>
+        <suite-file path="cucumber.xml"/>
+    </suite-files>
+</suite>

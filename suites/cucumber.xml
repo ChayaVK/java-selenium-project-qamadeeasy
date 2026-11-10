@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Cucumber scenarios, one at a time. Run: mvn clean test -DsuiteXmlFile=suites/cucumber.xml
+     Only some tags: add -Dcucumber.filter.tags="@smoke" -->
+<suite name="Cucumber Suite" data-provider-thread-count="1" verbose="1">
+    <test name="Cucumber">
+        <classes>
+            <class name="com.username.cucumber.runners.CucumberRunnerTest"/>
+        </classes>
+    </test>
+</suite>
