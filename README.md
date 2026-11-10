@@ -89,7 +89,19 @@ Install these once. Everything else (Selenium, TestNG, Cucumber, browser drivers
    Chrome opens and closes for each test. At the end the Run panel shows **Tests passed: 29**.
 6. Run the Cucumber scenarios: right-click `suites/cucumber.xml` > **Run** (6 scenarios), or open
    `src/test/java/com/username/cucumber/runners/CucumberRunnerTest.java` and click the green arrow.
-7. Open the report: in the Project panel, right-click `reports/ExtentReport.html` > **Open In** > **Browser**.
+7. Run a single test class or a single test:
+   - **One class:** open the test file, for example `src/test/java/com/username/tests/LoginTest.java`, and click the
+     green arrow next to `public class LoginTest`, then **Run 'LoginTest'**. Or right-click the file in the Project
+     panel > **Run 'LoginTest'**.
+   - **One test method:** click the green arrow next to the method, for example `validUserCanLogIn()` > **Run**.
+   - **One Cucumber scenario:** give it a tag (for example `@wip` above `Scenario:`) and run
+     `mvn clean test -DsuiteXmlFile=suites/cucumber.xml -Dcucumber.filter.tags="@wip"` (section 4).
+   - To run the same class again later, pick it in the run list at the top right of IntelliJ and click the green arrow there.
+
+   > A class or method run this way does not go through a suite file, so the automatic retry of failed tests
+   > (RetryTransformer, registered in the suite files) is off. Everything else works the same: the Practice Shop
+   > starts, the browser opens, and the report and screenshots are written.
+8. Open the report: in the Project panel, right-click `reports/ExtentReport.html` > **Open In** > **Browser**.
    (If the `reports` folder is not shown, right-click the project > **Reload from Disk**.)
 
 **Run with Maven inside IntelliJ** (same as the command line, no Maven install needed): open the **Maven** tool window
