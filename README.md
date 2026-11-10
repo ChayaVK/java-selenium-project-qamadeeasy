@@ -8,7 +8,7 @@ with Docker, and CI pipelines for Jenkins and GitHub Actions.
 It comes with its own demo web application, the **Practice Shop**, which starts automatically when you run the tests.
 You need no internet connection and no test website to try it. When you are ready, point it at your own application.
 
-All 35 tests (29 TestNG tests and 6 Cucumber scenarios) pass on a fresh setup.
+All 35 tests (29 TestNG tests and 6 Cucumber scenarios) pass on a fresh setup, in GitHub Actions, and on a Selenium Grid in Docker with Chrome, Firefox and Edge.
 
 ---
 
@@ -55,7 +55,7 @@ All 35 tests (29 TestNG tests and 6 Cucumber scenarios) pass on a fresh setup.
 | **Logging (Log4j 2)** | `log4j2.xml`, `logs/framework.log` | Every step written to the console and to a log file. |
 | **Selenium Grid** | `docker-compose.yml` | Hub with Chrome, Firefox and Edge nodes; run with `-Dremote=true`. |
 | **Jenkins** | `Jenkinsfile` | Pipeline with parameters (suite, browser, headless, environment, tags), nightly trigger, reports. |
-| **GitHub Actions** | `.github/workflows/ui-tests.yml` | Runs on every push and pull request, uploads the reports. |
+| **GitHub Actions** | `.github/workflows/ui-tests.yml`, `grid-tests.yml` | Runs on every push and pull request and uploads the reports; a second workflow runs the tests on a Docker Grid with Chrome, Firefox and Edge. |
 | **Practice Shop** | `src/test/resources/demo-app` | Demo app: login, products, sorting, cart, checkout, plus a practice page with alerts, frames, windows, waits, dropdowns, uploads and a web table. |
 
 ---
@@ -138,7 +138,7 @@ SeleniumJavaFramework
 ├── pom.xml                         Maven: libraries, versions, plugins
 ├── suites/                         TestNG suite files (testng, smoke, parallel, cucumber...)
 ├── Jenkinsfile                     Jenkins pipeline
-├── .github/workflows/ui-tests.yml  GitHub Actions workflow
+├── .github/workflows/              GitHub Actions: ui-tests.yml (every push), grid-tests.yml (Docker Grid)
 ├── docker-compose.yml              Selenium Grid (hub + Chrome, Firefox, Edge)
 ├── src/main/java/com/username      THE FRAMEWORK (reusable code)
 │   ├── config/ConfigReader         reads config.properties, env files, -D options
@@ -426,6 +426,11 @@ and Edge nodes.
 4. Stop the Grid: `docker compose down`.
 
 A Grid you already have works the same way: `-Dremote=true -Dgrid.url=http://your-grid:4444`.
+
+**On GitHub, with no Docker on your computer:** the workflow `.github/workflows/grid-tests.yml` starts this same Grid on
+GitHub's machine and runs a suite on Chrome, Firefox and Edge at the same time. Open **Actions > Grid tests (Docker) >
+Run workflow**, choose the suite (`smoke`, `testng` or `cucumber`), and click **Run workflow**. Each browser gets its own
+report under **Artifacts**.
 
 ---
 
