@@ -1,8 +1,9 @@
 # Build output
-target/
-# Run output: created again by every run
-reports/
-logs/
+/target/
+# Run output: created again by every run (the leading / means only the top-level folders,
+# not the framework's own src/main/java/.../reports package)
+/reports/
+/logs/
 # IDE files
 .idea/
 *.iml
